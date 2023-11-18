@@ -16,7 +16,8 @@ public class ProductCategoryRepository implements CrudInterface<ProductCategoryE
 
     @Override
     public ProductCategoryEntity getById(Long id) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        return session.get(ProductCategoryEntity.class , id);
     }
 
     @Override

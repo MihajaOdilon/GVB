@@ -25,7 +25,19 @@ public class ProductCategoryService implements CrudInterface<ProductCategoryEnti
 
     @Override
     public ProductCategoryEntity getById(Long id) {
-        return null;
+        Transaction transaction = null;
+        ProductCategoryEntity productCategory = new ProductCategoryEntity();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            productCategory = this.productCategoryRepository.getById(id);
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+        }
+        return productCategory;
     }
 
     @Override
